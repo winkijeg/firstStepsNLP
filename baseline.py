@@ -64,4 +64,4 @@ if __name__ == '__main__':
     train = main.parse_data(train_file)
     test = main.parse_data(dev_file)
     sense_dict = build_dict(train)
-    most_frequent_sense(test, sense_dict,language)
+    most_frequent_sense(test, sense_dict, language)
