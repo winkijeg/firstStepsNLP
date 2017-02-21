@@ -1,6 +1,7 @@
 from main import replace_accented
 from sklearn import svm
 from sklearn import neighbors
+import nltk
 
 # don't change the window size
 window_size = 10
@@ -24,6 +25,13 @@ def build_s(data):
     s = {}
 
     # implement your code here
+    for lexelt in data:
+        cv = []
+        for instance in data[lexelt]:
+            left_context = nltk.word_tokenize(instance[1])
+            right_context = nltk.word_tokenize(instance[3])
+            cv += left_context[-window_size:] + right_context[0:window_size]
+        s[lexelt] = list(set(cv))
 
     return s
 
@@ -48,6 +56,15 @@ def vectorize(data, s):
     labels = {}
 
     # implement your code here
+    for instance in data:
+        word_count = []
+        left_context = nltk.word_tokenize(instance[1])
+        right_context = nltk.word_tokenize(instance[3])
+        context = left_context[-window_size:] + right_context[0:window_size]
+        for word in s:
+            word_count.append(context.count(word))
+        vectors[instance[0]] = word_count
+        labels[instance[0]] = instance[4]
 
     return vectors, labels
 
