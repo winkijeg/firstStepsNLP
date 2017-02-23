@@ -21,17 +21,26 @@ def build_s(data):
 			...
         }
 
+
+    comments RW: collect the words in the context of each lexelt
+
     '''
     s = {}
 
     # implement your code here
-    for lexelt in data:
-        cv = []
-        for instance in data[lexelt]:
-            left_context = nltk.word_tokenize(instance[1])
-            right_context = nltk.word_tokenize(instance[3])
-            cv += left_context[-window_size:] + right_context[0:window_size]
-        s[lexelt] = list(set(cv))
+    for one_lexelt in data:
+
+        my_word_context_bag = []
+
+        for one_instance in data[one_lexelt]:
+
+            words_left = nltk.word_tokenize(one_instance[1])[-window_size:]
+            words_right = nltk.word_tokenize(one_instance[3])[0:window_size]
+
+            my_word_context_bag += words_left + words_right
+            my_word_context_set = set(my_word_context_bag)
+
+        s[one_lexelt] = list(my_word_context_set)
 
     return s
 
