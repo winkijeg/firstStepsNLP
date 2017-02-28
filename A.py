@@ -164,7 +164,7 @@ def print_results(results, output_file):
     # sort in two steps using stable-feature
     all_lines_sorted = sorted(all_lines, key=lambda actual_line: [actual_line[0], actual_line[1]])
 
-    print all_lines_sorted
+    #print all_lines_sorted
 
 
     # write file to disk
