@@ -31,7 +31,6 @@ def build_s(data):
     for one_lexelt in data:
 
         my_word_context_bag = []
-
         for one_instance in data[one_lexelt]:
 
             words_left = nltk.word_tokenize(one_instance[1])[-window_size:]
@@ -65,15 +64,18 @@ def vectorize(data, s):
     labels = {}
 
     # implement your code here
-    for instance in data:
-        word_count = []
-        left_context = nltk.word_tokenize(instance[1])
-        right_context = nltk.word_tokenize(instance[3])
-        context = left_context[-window_size:] + right_context[0:window_size]
-        for word in s:
-            word_count.append(context.count(word))
-        vectors[instance[0]] = word_count
-        labels[instance[0]] = instance[4]
+    for one_instance in data:
+
+        words_left = nltk.word_tokenize(one_instance[1])[-window_size:]
+        words_right = nltk.word_tokenize(one_instance[3])[0:window_size]
+        my_word_context_bag = words_left + words_right
+
+        feature_vec = []
+        for tmp_feature in s:
+            feature_vec.append(my_word_context_bag.count(tmp_feature))
+
+        vectors[one_instance[0]] = feature_vec
+        labels[one_instance[0]] = one_instance[4]
 
     return vectors, labels
 
