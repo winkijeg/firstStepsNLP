@@ -30,17 +30,15 @@ def build_s(data):
     s = {}
 
     # implement your code here
-    for one_lexelt in data:
+    for lexelt in data:
 
-        my_word_context_bag = []
-        for one_instance in data[one_lexelt]:
-            words_left = nltk.word_tokenize(one_instance[1])[-window_size:]
-            words_right = nltk.word_tokenize(one_instance[3])[0:window_size]
+        my_word_context_list = []
+        for instance in data[lexelt]:
+            words_left = nltk.word_tokenize(instance[1])[-window_size:]
+            words_right = nltk.word_tokenize(instance[3])[:window_size]
+            my_word_context_list += words_left + words_right
 
-            my_word_context_bag += words_left + words_right
-            my_word_context_set = set(my_word_context_bag)
-
-        s[one_lexelt] = list(my_word_context_set)
+        s[lexelt] = list(set(my_word_context_list))
 
     return s
 
@@ -168,13 +166,13 @@ def print_results(results, output_file):
 
 
     # write file to disk
-    fid = open(output_file, 'w')
 
-    for item, inst, sense in all_lines_sorted:
-        tmp_line = item + ' ' + inst + ' ' + sense + '\n'
-        fid.write(tmp_line)
+    with open(output_file, 'w') as fid:
+        for item, inst, sense in all_lines_sorted:
+            tmp_line = item + ' ' + inst + ' ' + sense + '\n'
+            fid.write(tmp_line)
 
-    fid.close()
+        fid.close()
 
 
 # run part A
